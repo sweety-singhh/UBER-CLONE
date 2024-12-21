@@ -12,10 +12,11 @@ module.exports.getAddressCoordinate = async (address) => {
         const response = await axios.get(url);
         if (response.data && response.data.length > 0) {
             const location = response.data[0];
-            return {
-                ltd: location.lat,
-                lng: location.lon
-            };
+            // return {
+            //     ltd: location.lat,
+            //     lng: location.lon
+            // };
+            return `${location.lat},${location.lon}`;
         } else {
             throw new Error('Unable to fetch coordinates');
         }
@@ -36,13 +37,12 @@ module.exports.getDistanceTime = async (origin, destination) => {
     const url = `https://us1.locationiq.com/v1/directions/driving/${encodeURIComponent(origin)};${encodeURIComponent(destination)}?key=${apiKey}`;
 
     try {
-
-
         const response = await axios.get(url);
         //console.log('Full API Response:', response.data);
 
         if (response.data && response.data.routes && response.data.routes.length > 0) {
             const { distance, duration } = response.data.routes[0];
+            console.log(response.data.routes[0]);
             return { distance, duration };
         } else {
             throw new Error('Unable to fetch distance and time');
